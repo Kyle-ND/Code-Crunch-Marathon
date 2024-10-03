@@ -23,3 +23,6 @@ list_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 student_names = ["jason", "james", "jane", "jill", "jerry"]
 
+for student,value in students.items():
+    if value > 50:
+        print(student)
