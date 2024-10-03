@@ -27,5 +27,20 @@ student_names = ["jason", "james", "jane", "jill", "jerry"]
 #     if value > 50:
 #         print(student)
         
-high = students["jason"]
-print(high)
+# high = students["jason"]
+# print(high)
+# list_num = []
+# for x in list_nums:
+#     list_num.append(x * 2)
+# print(list_num)
+
+# nums = {}
+# for num in list_nums:
+#     nums[num] = num * 2
+    
+# print(nums)
+weathers = {}
+for days,value in weather.items():
+    weathers[days] = value * (9/4)
+    
+print(weathers)
