@@ -3,12 +3,16 @@ import datetime
 from email.message import EmailMessage
 import requests,json
 
-def send_email(receipient_data):
+def send_email(person,year): #will send message via email to a certain address. 
+    name = person['name']
+    surname = person['surname']
+    email_address = person['email']
+    #email=====================
     email = EmailMessage()
     email['Subject'] = 'Happy Birthday 🎂'
     email['From'] = 'Automate test'
     email['To'] = ''
-    email.set_charset('')
+    email.set_content('')
     
     
 def get_data():
@@ -21,7 +25,22 @@ def get_data():
     return data['dateofbirths']
 
 
-#response = requests.post(url=End_point,json=user_info)
-print(get_data())
-# date = datetime.datetime.now()
-# print(date)
+
+def main():
+    
+    people = get_data()
+    date = datetime.datetime.now()
+    day,month,year = date.strftime('%d'), date.strftime('%m'), date.strftime('%Y')
+    
+    print(type(day))
+    for person in people:
+        d_o_b = person['dateOfBirth'].split("/")
+        if d_o_b[0] == day and d_o_b[1] == month: #
+            send_email(person,year)
+        else:
+            pass
+        
+
+ 
+if __name__ == '__main__':
+    main()
