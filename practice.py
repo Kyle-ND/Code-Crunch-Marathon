@@ -19,25 +19,6 @@
 #     "Sunday": 24,
 # }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # student_names = ["jason", "james", "jane", "jill", "jerry"]
 
 # weather = {
