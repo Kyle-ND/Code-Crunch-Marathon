@@ -3,16 +3,21 @@ import datetime
 from email.message import EmailMessage
 import requests,json
 
-def send_email(person,year): #will send message via email to a certain address. 
+def send_email(person,age): #will send message via email to a certain address. 
     name = person['name']
     surname = person['surname']
     email_address = person['email']
+    company_name = "C.Prime"
+    message = f"""Hi {name} {surname} 💫,
+Happy Birthday from {company_name}🎊! We hope you're feeling extra special today and celebrating in style🙌. Here at {company_name}, we believe birthdays are the perfect excuse to indulge, so go ahead and eat that extra slice of cake or buy that pair of shoes you've had your eye on.
+    """
+
     #email=====================
     email = EmailMessage()
-    email['Subject'] = 'Happy Birthday 🎂'
-    email['From'] = 'Automate test'
-    email['To'] = ''
-    email.set_content('')
+    email['Subject'] = f'Happy Birthday 🎂 {name}'
+    email['From'] = company_name
+    email['To'] = person['email']
+    email.set_content(message)
     
     
 def get_data():
@@ -31,12 +36,12 @@ def main():
     people = get_data()
     date = datetime.datetime.now()
     day,month,year = date.strftime('%d'), date.strftime('%m'), date.strftime('%Y')
-    
-    print(type(day))
+
     for person in people:
         d_o_b = person['dateOfBirth'].split("/")
         if d_o_b[0] == day and d_o_b[1] == month: #
-            send_email(person,year)
+            age = int(year)-int(d_o_b[2])
+            send_email(person,age)
         else:
             pass
         
