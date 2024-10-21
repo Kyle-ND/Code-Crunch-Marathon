@@ -10,6 +10,10 @@ def send_email(person,age): #will send message via email to a certain address.
     company_name = "C.Prime"
     message = f"""Hi {name} {surname} 💫,
 Happy Birthday from {company_name}🎊! We hope you're feeling extra special today and celebrating in style🙌. Here at {company_name}, we believe birthdays are the perfect excuse to indulge, so go ahead and eat that extra slice of cake or buy that pair of shoes you've had your eye on.
+
+{company_name}
++27 011 235 444
+prime.co.za
     """
 
     #email=====================
@@ -19,6 +23,11 @@ Happy Birthday from {company_name}🎊! We hope you're feeling extra special tod
     email['To'] = person['email']
     email.set_content(message)
     
+    server  = smtplib.SMTP('smtp.gmail.com',587)
+    server.starttls()
+    server.login("testauston.dev@gmail.com",'#######') #<---- 2 step F KEY HERE
+    server.send_message(email)
+    server.quit()
     
 def get_data():
     End_point= "https://api.sheety.co/ef491bcfd06cc17c7074d5b4b6f10bbc/birthdaySheet/dateofbirths"
