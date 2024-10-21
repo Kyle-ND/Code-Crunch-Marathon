@@ -1,5 +1,7 @@
 import geocoder
 import requests
+import os
+from dotenv import load_dotenv
 from twilio.rest import Client
 
 def get_coordinates():
@@ -26,23 +28,25 @@ def main():
     rainy = response["current"]["weather"][0]["main"]
 
     #Set up messaging
-    account_sid = "AC11bab766d5743bbb09416e4554e8cdeb"
-    auth_token = "cd067ff68d45bfb42acc45f8e1c2a7ff"
+    load_dotenv()
+    account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+    auth_token = os.getenv("TWILIO_AUTH_TOKEN")
     client = Client(account_sid, auth_token)
+    number = input("Enter you cell number. Eg +27794552808: ")
 
     #Send messages
     if rainy.lower() == "rain":
         message = client.messages.create(
                 body="The weather is expected to rain.",
                 from_="+12096339790",
-                to="+27794802246",
+                to = number,
                 )
         print(message.body)
     else:
         message = client.messages.create(
                 body="The weather is not expected to rain.",
                 from_="+12096339790",
-                to="+27794802246",
+                to = number,
                 )
         print(message.body)
 
