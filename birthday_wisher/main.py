@@ -3,8 +3,24 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 import smtplib
+import ssl
 
-#def send_email(name, email):
+def send_email(name, email):
+    server = smtplib.SMTP_SSL("smtp.gmail.com",465)
+    server.ehlo()
+    server.starttls
+    sender = os.getenv("SENDER_EMAIL")
+    password = os.getenv("PASSWORD")  
+    server.login(sender, password)
+    server.sendmail(sender, email , 
+    f"""Heyy {name}!
+    Happy birthday, wishing you many more!
+
+    Regards 
+    Thato Mabuela
+    """)
+    server.quit()
+    
 
 
 def main():
@@ -25,7 +41,7 @@ def main():
         dob= person["dob"]
 
         if dob == date:
-            print("Send email")
+            send_email(name, email)
         else:
             print("Dont send email")
 
