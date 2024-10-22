@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 
-PASSWORD  =os.getenv("PASSWORD")
+APPS_PASSWORD  =os.getenv("APPS_PASSWORD")
 EMAIL =  os.getenv("EMAIL")
 
 def get_birthdays(url):
@@ -72,15 +72,17 @@ def main():
     subject = f"Happy Birthday"
     body = "This is the body of the text message"
     sender = EMAIL
-    password = PASSWORD
-
+    apps_password = APPS_PASSWORD
+    
+    print(sender)
+    print(apps_password)
     for i in range(len(data) + 1):
         print(birthdays[i])
         if birthdays[i] == str(current_date_split):
             name = names[i]
             recipient  = emails[i]
             birthday = birthdays[i]
-            send_email(name, recipient, birthday, subject, body, sender, password)
+            send_email(name, recipient, birthday, subject, body, sender, apps_password)
 
 
 
