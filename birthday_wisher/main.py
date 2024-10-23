@@ -3,6 +3,8 @@ import datetime
 from email.message import EmailMessage
 import requests,json
 from menu import option_sys
+from dotenv import load_dotenv
+import os
 
 def send_email(person,age): #will send message via email to a certain address. 
     name = person['name']
@@ -10,29 +12,32 @@ def send_email(person,age): #will send message via email to a certain address.
     email_address = person['email']
     company_name = "C.Prime"
     message = f"""Hi {name} {surname} 💫,
-Happy Birthday from {company_name}🎊! We hope you're feeling extra special today and celebrating in style🙌. Here at {company_name}, we believe birthdays are the perfect excuse to indulge, so go ahead and eat that extra slice of cake or buy that pair of shoes you've had your eye on.
+Happy Birthday from {company_name}🎊! We hope you're feeling extra special today and celebrating in style🙌.
+Here at {company_name}, we believe birthdays are the perfect excuse to indulge, so go ahead and eat that extra slice of cake or buy that pair of shoes you've had your eye on.
 
 {company_name}
 +27 011 235 444
 prime.co.za
     """
-
+    sender_email = os.getenv('sender_email')
+    two_factor_key = os.getenv('two_factor_key')
     #email=====================
     email = EmailMessage()
     email['Subject'] = f'Happy Birthday 🎂 {name}'
     email['From'] = company_name
     email['To'] = person['email']
-    email.set_content(message)
-    
+    email.set_content(message) #email body
+    #sending=====================
     server  = smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
-    server.login("testauston.dev@gmail.com",'#######') #<---- 2 step F KEY HERE
+    server.login(sender_email,two_factor_key) #<---- 2 step F KEY HERE
     server.send_message(email)
     server.quit()
     
+ 
 def get_data():
-    End_point= "https://api.sheety.co/ef491bcfd06cc17c7074d5b4b6f10bbc/birthdaySheet/dateofbirths"
-    
+
+    End_point= os.getenv('End_point') 
     response = requests.get(url=End_point)
     str1 = response.text
     data  = json.loads(str1)
@@ -41,7 +46,7 @@ def get_data():
     return data['dateofbirths']
 
 def add_birthday(name,surname,dateofbirth,email):
-    End_point= "https://api.sheety.co/ef491bcfd06cc17c7074d5b4b6f10bbc/birthdaySheet/dateofbirths"
+    End_point= os.getenv('End_point') 
     
     data = {
         "dateofbirth": {
@@ -58,7 +63,7 @@ def add_birthday(name,surname,dateofbirth,email):
 
 
 def main():
-
+    load_dotenv()
     
 
     options = ["View Todays birthday","View ALL Birthdays","Add A Birthday (+)","Remove A Birthday (-)"] 
@@ -72,6 +77,7 @@ def main():
         is_a_birthday_today = False
         match choice:
             case 0:
+                #=================================================================================
                 print("\033[1;34m",options[choice],"\033[0;37m")
                 for person in people:
                     
@@ -80,11 +86,15 @@ def main():
                         age = int(year)-int(d_o_b[2])
                         send_email(person,age)
                         is_a_birthday_today = True
+                        print("-> ",person['dateOfBirth'],person['name'])
+
+                    
+
                         
                         
                 if is_a_birthday_today is not True:
                     print("There is no birthday Today...🚫")
-                        
+                #=================================================================================     
                 
             case 1:# view all birthdays
                 print("\033[1;34m",options[choice],"\033[0;37m")
@@ -104,9 +114,11 @@ def main():
             case 3:#remove
                 print("\033[1;34m",options[choice],"\033[0;37m")
                 
+
                 pass
         
-        input("")
+    
+        input("press ENTER to proceed...")
             
 
  
