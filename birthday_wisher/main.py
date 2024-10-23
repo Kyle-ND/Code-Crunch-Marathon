@@ -5,87 +5,114 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
 
+# Load environment variables
 load_dotenv()
 
-APPS_PASSWORD  =os.getenv("APPS_PASSWORD")
-EMAIL =  os.getenv("EMAIL")
+# Environment variables
+APPS_PASSWORD = os.getenv("APPS_PASSWORD")
+EMAIL = os.getenv("EMAIL")
+
+# Constants
+URL = 'https://api.sheety.co/3facb7789ccb8d6a7acf7735666d6746/birthdayWisher/sheet1'
+SMTP_SERVER = 'smtp.gmail.com'
+SMTP_PORT = 465
+
 
 def get_birthdays(url):
+    """
+    Fetches birthday data from the given URL.
+
+    Args:
+        url (str): The API endpoint URL to fetch birthday data.
+
+    Returns:
+        dict: The JSON response containing birthday data.
+    """
     try:
         response = requests.get(url)
-
         response.raise_for_status()
-
         return response.json()
-
-    except requests.exceptions.HTTPError as http_err:
-        print(f"HTTP error occured: {http_err}")
-
-    except Exception as err:
-        print(f"An error occured: {err}")
-
-
-url = 'https://api.sheety.co/3facb7789ccb8d6a7acf7735666d6746/birthdayWisher/sheet1';
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data: {e}")
+        return None
 
 
 def extract_items_json(data):
-    print(data.keys())
-    sheet = data["sheet1"]
-    names = []
-    emails = []
-    birthdays = []
-    print(sheet)
+    """
+    Extracts names, emails, and birthdays from JSON data.
 
-    # Corrected loop
-    for item in sheet:
-        names.append(item["name"])
-        emails.append(item["email"])
-        birthdays.append(item["birthday"][5:])
+    Args:
+        data (dict): JSON data from the API response.
+
+    Returns:
+        tuple: A tuple containing three lists - names, emails, and birthdays.
+    """
+    names, emails, birthdays = [], [], []
+
+    if "sheet1" in data:
+        for item in data["sheet1"]:
+            names.append(item["name"])
+            emails.append(item["email"])
+            birthdays.append(item["birthday"][5:])  # Extract month and day
 
     return names, emails, birthdays
 
-def send_email(name, recipient, birthday, subject, body, sender, password):
+
+def send_email(sender, password, recipient, subject, body):
+    """
+    Sends an email to the specified recipient.
+
+    Args:
+        sender (str): The email address of the sender.
+        password (str): The app password for the sender's email account.
+        recipient (str): The email address of the recipient.
+        subject (str): The subject of the email.
+        body (str): The body content of the email.
+
+    Returns:
+        None
+    """
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From'] = sender
     msg['To'] = recipient
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
-       smtp_server.login(sender, password)
-       smtp_server.sendmail(sender, recipient, msg.as_string())
-    print("Message sent!")
+
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp_server:
+            smtp_server.login(sender, password)
+            smtp_server.sendmail(sender, recipient, msg.as_string())
+        print(f"Message sent to {recipient}!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
 
 
-def main():
+def check_and_send_birthday_wishes():
+    """
+    Checks if today matches any birthday and sends an email if it does.
 
-    current_datetime = datetime.now()
+    Args:
+        None
 
-    current_date = str(current_datetime.date())
+    Returns:
+        None
+    """
+    current_date = datetime.now().strftime("%m-%d")  # Get current month and day
 
-    current_date_split = current_date[5:]
+    data = get_birthdays(URL)
+    if not data:
+        return
 
-    print(current_date_split)
-    data =  get_birthdays(url)
     names, emails, birthdays = extract_items_json(data)
-    name = ""
-    recipient = ""
-    birthday = ""
-    subject = f"Happy Birthday"
-    body = "This is the body of the text message"
-    sender = EMAIL
-    apps_password = APPS_PASSWORD
-    
-    print(sender)
-    print(apps_password)
-    for i in range(len(data) + 1):
-        print(birthdays[i])
-        if birthdays[i] == str(current_date_split):
+
+    # Iterate over birthdays to check if today matches
+    for i in range(len(birthdays)):
+        if birthdays[i] == current_date:
             name = names[i]
-            recipient  = emails[i]
-            birthday = birthdays[i]
-            send_email(name, recipient, birthday, subject, body, sender, apps_password)
-
-
+            recipient = emails[i]
+            subject = f"Happy Birthday {name}!"
+            body = f"Happy birthday from Top 1% WTC, {name}!"
+            send_email(EMAIL, APPS_PASSWORD, recipient, subject, body)
 
 
 if __name__ == "__main__":
-    main()
+    check_and_send_birthday_wishes()
