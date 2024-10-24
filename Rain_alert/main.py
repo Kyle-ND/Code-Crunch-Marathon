@@ -10,16 +10,16 @@ def get_data():
     data = json.loads(response.text)
     return data['weather']
 
-def sms():
+def sms(content,to_number):
     
     account_sid = os.getenv('account_sid')
     auth_token = os.getenv('auth_token')
     client = Client(account_sid, auth_token)
     message = client.messages.create(
-    messaging_service_sid = os.getenv('messaging_service_sid'),
-    body='Ahoy 👋',
-    to='+18777804236'
+    body=content,
+    to=to_number
     )
     print(message.sid)
 
 print(get_data())
+sms("hey........","+27696608792")
