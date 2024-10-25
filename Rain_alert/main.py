@@ -3,9 +3,13 @@ from dotenv import load_dotenv
 import requests ,json
 from twilio.rest import Client
 
-def get_data():
+def get_data(location):
+    'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}'
     load_dotenv()
-    api_url = os.getenv('key')
+    API_key = os.getenv('key')
+    lat = location[0]
+    lon = location[1]
+    api_url =f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}' 
     response = requests.get(url=api_url)
     data = json.loads(response.text)
     return data['weather']
@@ -21,6 +25,7 @@ def sms(content,to_number):
     to=to_number
     )
 
-
-#print(get_data())
-sms("weather","+27696608792")
+def main():
+    pass
+#sms("weather","+27696608792")
+print(get_data())
