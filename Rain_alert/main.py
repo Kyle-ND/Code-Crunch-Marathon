@@ -11,9 +11,9 @@ def get_data(location): #location is a list of size two, containin lattitude and
     lon = location[1]
     api_url =f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}' 
     response = requests.get(url=api_url)
-    data = json.loads(response.text)    'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}'
+    data = json.loads(response.text)
 
-    return data['weather']
+    return data
 
 def sms(content,to_number):# sends an sms to the to_number
     load_dotenv()
@@ -27,6 +27,14 @@ def sms(content,to_number):# sends an sms to the to_number
     )
 
 def main():
-    pass
+    rain_emoji = '🌧️'
+    location = [-33.921579293740706, 18.419719274639686] #lat,lon
+    data = get_data(location)
+    weather = data['weather'] #getting weather condition from json dictionarysky
+    sky = weather[0]['main']
+    print(sky)
+    
+
 #sms("weather","+27696608792")
-print(get_data())
+if __name__ == '__main__':
+    main()
