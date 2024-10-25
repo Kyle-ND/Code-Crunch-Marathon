@@ -23,4 +23,4 @@ def sms(content,to_number):
 
 
 #print(get_data())
-sms("hey........","+27696608792")
+sms("weather","+27696608792")
