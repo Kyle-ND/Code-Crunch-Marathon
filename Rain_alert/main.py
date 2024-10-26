@@ -27,8 +27,7 @@ def sms(content,to_number):# sends an sms to the to_number
     )
     return message
 def main():
-    rain_emoji = '🌧️'
-    location = [-33.921579293740706, 18.419719274639686] #lat,lon
+    location = [-29.846188212189613, 31.002883656151514] #lat,lon
     data = get_data(location)
 
     weather = None
@@ -38,16 +37,16 @@ def main():
 
     if weather:
         sky = weather[0]['main']
-        print(f"The weather right now is: {sky}", '+27658544670')
-            
-        if sky.lower == 'rain':
-            message = sms('ITS RAINING TODAY! make sure to find shelyer and stay safe!')
+        print(f"The weather right now is: {sky}")
+        
+        if sky.lower() == 'rain':
+            message = sms('ITS RAINING TODAY 🌧️! make sure to find shelyer and stay safe!',"+27696608792")
             print(f'{message.body}')
         else:
             print('no rain today')
     else:
         print('failed to retrieve weather information')
-#sms("weather","+27696608792")
+
 
 if __name__ == '__main__':
     main()
