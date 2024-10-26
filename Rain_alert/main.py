@@ -38,16 +38,16 @@ def result():
         y = info['weather']
         main_weather = y[0]['main']
         description = y[0]['description']
-        print(f' The city: {city_name} \n The maximun temperature in celsius: {maximum_temp}°C \n The minimun temperature in celsius: {minimum_temp}°C \n The main of the weather: {main_weather} \n The description: {description}')
+        return f' The city: {city_name} \n The maximun temperature in celsius: {maximum_temp}°C \n The minimun temperature in celsius: {minimum_temp}°C \n The main of the weather: {main_weather} \n The description: {description}'
     else:
-        print(" City Not Found ")
+        return " City Not Found "
 # Create the main function to send result to sms with twilio.
 def main():
     content = result()
     phone = '+27716467174'
     client = Client(ACCOUNT_SID,AUTH_TOKEN)
     message = client.messages.create(
-        MESSAGING_SERVICE_SID,
+        messaging_service_sid = MESSAGING_SERVICE_SID,
         body = content,
         to = phone)
     return message
