@@ -1,5 +1,8 @@
 import geocoder
 from geopy.geocoders import Nominatim
+import requests
+import os
+from twilio.rest import Client
 
 def get_current_gps_coordinates():
     g = geocoder.ip('me')#this function is used to find the current information using our IP Add
@@ -14,8 +17,13 @@ def process_coordinates(coordinates, latitude, longitude):
         location_name =  geo_location.reverse(f"{latitude}, {longitude}")
         print(location_name)
 
+def get_weather_by_location():
+    pass
 
-if __name__ == "__main__":
+def send_sms():
+
+
+def main():
     coordinates = get_current_gps_coordinates()
     if coordinates is not None:
         latitude, longitude = coordinates
@@ -25,4 +33,7 @@ if __name__ == "__main__":
         process_coordinates(coordinates, latitude, longitude) 
     else:
         print("Unable to retrieve your GPS coordinates.")
-    
+
+
+if __name__ == "__main__":
+    main()
