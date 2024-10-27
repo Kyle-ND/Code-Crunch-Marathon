@@ -40,7 +40,7 @@ def main():
         print(f"The weather right now is: {sky}")
         
         if sky.lower() == 'rain':
-            message = sms('ITS RAINING TODAY 🌧️! make sure to find shelyer and stay safe!',"+27696608792")
+            message = sms('ITS RAINING TODAY 🌧️! make sure to find shelyer and stay safe!',os.getenv('phone_number'))
             print(f'{message.body}')
         else:
             print('no rain today')
