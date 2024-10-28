@@ -30,6 +30,6 @@ Before you begin, ensure you have the following installed:
 1. **Python 3.x**  
 2. **pip** (Python package manager)  
 3. **Twilio account** – [Sign up here](https://www.twilio.com/try-twilio)  
-4. **OpenWeather API Key** – [Generate your key here](https://openweathermap.org/api)
+4. **OpenWeather API Key** – [Generate your key here]()
 
 ---
