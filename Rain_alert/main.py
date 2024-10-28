@@ -13,6 +13,7 @@ API_URL = os.getenv("API_URL")
 ACCOUNT_SID = os.getenv("ACCOUNT_SID")
 AUTH_TOKEN = os.getenv("AUTH_TOKEN")
 MESSAGING_SERVICE_SID = os.getenv("MESSAGING_SERVICE_SID")
+PHONE = os.getenv("PHONE")
 # To fecth user City so i can use it to get the weather info on that city and it is for my device only.
 def get_city():
     g = geocoder.ip('me')
@@ -44,12 +45,11 @@ def result():
 # Create the main function to send result to sms with twilio.
 def main():
     content = result()
-    phone = '+27716467174'
     client = Client(ACCOUNT_SID,AUTH_TOKEN)
     message = client.messages.create(
         messaging_service_sid = MESSAGING_SERVICE_SID,
         body = content,
-        to = phone)
+        to = PHONE)
     return message
 # calling the main function.
 main()
