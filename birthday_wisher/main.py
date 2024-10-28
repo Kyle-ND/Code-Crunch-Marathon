@@ -23,6 +23,7 @@ def getdata():
 
 # create the main function
 def email_birthday():
+    
     today = datetime.today().strftime("%d / %m")
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
