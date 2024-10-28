@@ -9,7 +9,7 @@ load_dotenv()
 context = ssl.create_default_context()
 
 def read_sheet():
-    response = requests.get('https://api.sheety.co/bfcd362eee577f1b69e1462e8abde6ac/birthdayWisher/sheet1')
+    response = requests.get('https://api.sheety.co/f6c54075ef4f6bfa569fcf5eb96e9b54/birthdayWisher/sheet1')
     content_list = response.json()
     data = content_list['sheet1']
     return data
