@@ -43,9 +43,18 @@
    ```
 
 2. **Activate the virtual environment**  
-   ```bash
-   source venv/bin/activate
-   ```
+   - On **Windows**:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - On **macOS/Linux**:
+     ```bash
+     source venv/bin/activate
+     ```
+   - On **Unix-based systems** (e.g., BSD):
+     ```bash
+     source venv/bin/activate
+     ```
 
 3. **Install required packages**  
    ```bash
