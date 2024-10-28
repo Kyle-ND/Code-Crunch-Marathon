@@ -79,6 +79,7 @@ def send_email(sender, password, recipient, subject, body):
 
     try:
         with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp_server:
+            smtp_server.starttls()
             smtp_server.login(sender, password)
             smtp_server.sendmail(sender, recipient, msg.as_string())
         print(f"Message sent to {recipient}!")
@@ -86,7 +87,7 @@ def send_email(sender, password, recipient, subject, body):
         print(f"Failed to send email: {e}")
 
 
-def check_and_send_birthday_wishes():
+def main():
     """
     Checks if today matches any birthday and sends an email if it does.
 
@@ -112,7 +113,8 @@ def check_and_send_birthday_wishes():
             subject = f"Happy Birthday {name}!"
             body = f"Happy birthday from Top 1% WTC, {name}!"
             send_email(EMAIL, APPS_PASSWORD, recipient, subject, body)
-
+        
+    print("No Birthdays today, no e-mail's sent. ")
 
 if __name__ == "__main__":
-    check_and_send_birthday_wishes()
+    main()
