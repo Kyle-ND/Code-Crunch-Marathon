@@ -36,16 +36,17 @@ def email_birthday():
         fullname  = info["fullname"]
         company_name = "Jason Arnold"
         message = f"""
-        Happy Birthday {fullname}🎉🎂
-        May your day be filled with joy, love, and laughter. Wishing you a year ahead filled with blessings, success, and happiness. 
-        May God bless you abundantly today and always! 🙏✨
+        Happy Birthday {fullname}!
+        May your day be filled with joy, love, and laughter.
+        Wishing you a year ahead filled with blessings, success, and happiness. 
+        May God bless you abundantly today and always!
         
         Best Regards
         {company_name}
         """
         if info["birthday"] == today:
             msg = MIMEMultipart("body")
-            msg["Subject"] = f'Happy Birthday {fullname}🎉🎂'
+            msg["Subject"] = f'Happy Birthday {fullname}'
             msg["From"] = SENDER_EMAIL
             msg["To"] = receiver_email
             server.sendmail(SENDER_EMAIL,receiver_email,message)
