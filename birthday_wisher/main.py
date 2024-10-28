@@ -10,6 +10,8 @@ load_dotenv()
 # fecthing my secret_key and secret_url from my .env
 SECRET_KEY = os.getenv("SECRET_KEY")
 SECRET_URL = os.getenv("SECRET_URL")
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+
 # create a function to fecth data from the secret_url
 def getdata():
     response = requests.get(url=SECRET_URL)
@@ -21,11 +23,10 @@ def getdata():
 
 # create the main function
 def email_birthday():
-    sender_email = "jjthebestmanmode@gmail.com"
     today = datetime.today().strftime("%d / %m")
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.starttls()
-    server.login(sender_email,SECRET_KEY)
+    server.login(SENDER_EMAIL,SECRET_KEY)
     datas = getdata()
     print(datas)
     birthdaytoday = False
@@ -44,9 +45,9 @@ def email_birthday():
         if info["birthday"] == today:
             msg = MIMEMultipart("body")
             msg["Subject"] = f'Happy Birthday {fullname}🎉🎂'
-            msg["From"] = sender_email
+            msg["From"] = SENDER_EMAIL
             msg["To"] = receiver_email
-            server.sendmail(sender_email,receiver_email,message)
+            server.sendmail(SENDER_EMAIL,receiver_email,message)
             birthdaytoday = True
     if birthdaytoday != True:
         print("It is no one's birthday today")
