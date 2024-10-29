@@ -30,7 +30,8 @@ def sms_alert():
     client = Client(Twilio_acc_sid, Twilio_auth_token)
     message = client.messages.create(
     from_ = Twilio_number,
-    to = User_phone_number
+    to = User_phone_number,
+    body = "It won't rain today. Have a clear sky day 🙃"
     )
 
     print(f"SMS sent with SID: {message.sid}")
