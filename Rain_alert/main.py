@@ -40,4 +40,4 @@ if __name__ == "__main__":
     if weather():
         sms_alert()
     else:
-        print("No rain today")
+        sms_alert()
