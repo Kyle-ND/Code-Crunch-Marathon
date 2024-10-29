@@ -15,17 +15,22 @@ def get_data(location): #location is a list of size two, containin lattitude and
 
     return data
 
-def sms(content,to_number):# sends an sms to the to_number
+def sms():# sends an sms to the to_number
     load_dotenv()
     account_sid = os.getenv('account_sid')
     auth_token = os.getenv('auth_token')
+    phone_number = os.getenv('phone_number')
+    twilio_number = os.getenv('twilio_number')
     client = Client(account_sid, auth_token)
+
     message = client.messages.create(
     messaging_service_sid=os.getenv('messaging_service_sid'),
-    body=content,
-    to= to_number,
+        body='Looks like its a clear sky today',
+        from_ = twilio_number,
+        to= phone_number ,
     )
-    return message
+
+    return message.sid
 def main():
     location = [-29.846188212189613, 31.002883656151514] #lat,lon
     data = get_data(location)
@@ -42,11 +47,14 @@ def main():
         if sky.lower() == 'rain':
             message = sms('ITS RAINING TODAY 🌧️! make sure to find shelyer and stay safe!',"+27696608792")
             print(f'{message.body}')
-        else:
+            
+        elif sky.lower != 'rain':
+            message = sms('Looks like its a clear sky today')
             print('no rain today')
-    else:
-        print('failed to retrieve weather information')
+    # else:
+    #     print('failed to retrieve weather information')
 
-
+sms()
 if __name__ == '__main__':
     main()
+
