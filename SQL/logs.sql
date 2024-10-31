@@ -34,9 +34,7 @@ id |name   |year|month|day|transcript                                           
 163|Raymond|2023|    7| 28|As the thief was leaving the bakery, they called someone who talked to them for less than a minute. In the call, I heard the thief say that they were planning to take the earliest flight out of Fiftyville tomorrow. The thief then asked the person on the o|
 ```
 
-``` 
-Query 3:
-```
+``` Query 3: ```
 
 SELECT *
 FROM bakery_security_logs bsl
@@ -60,15 +58,89 @@ id |year|month|day|hour|minute|activity|license_plate|
 267|2023|    7| 28|  10|    23|exit    |0NTHK55      |
 ```
 
-``` Query : ``` SELECT *
+``` Query 4: ```
 
-```bash ``` ``` Query : ``` SELECT *
+SELECT id FROM airports a WHERE city = 'Fiftyville'
 
-```bash ``` ``` Query : ``` SELECT *
+```bash id| --+ 8| ```
 
-```bash ``` ``` Query : ``` SELECT *
+``` 
+Query 5: 
+```
+SELECT *
+FROM flights f
+WHERE
+    day = 29
+    AND year = 2023
+    AND month = 7
+    AND origin_airport_id
+ORDER BY hour ASC, minute ASC;
 
-```bash ``` ``` Query : ``` SELECT *
+```bash 
+id|origin_airport_id|destination_airport_id|year|month|day|hour|minute|
+--+-----------------+----------------------+----+-----+---+----+------+
+36|                8|                     4|2023|    7| 29|   8|    20|
+43|                8|                     1|2023|    7| 29|   9|    30|
+23|                8|                    11|2023|    7| 29|  12|    15|
+53|                8|                     9|2023|    7| 29|  15|    20|
+18|                8|                     6|2023|    7| 29|  16|     0|
+```
+
+``` 
+Query 6: 
+```
+SELECT *
+FROM phone_calls pc
+WHERE
+    day = 28
+    AND year = 2023
+    AND month = 7
+    AND duration < 60
+
+```bash 
+id |caller        |receiver      |year|month|day|duration|
+---+--------------+--------------+----+-----+---+--------+
+221|(130) 555-0289|(996) 555-8899|2023|    7| 28|      51|
+224|(499) 555-9472|(892) 555-8872|2023|    7| 28|      36|
+233|(367) 555-5533|(375) 555-8161|2023|    7| 28|      45|
+251|(499) 555-9472|(717) 555-1342|2023|    7| 28|      50|
+254|(286) 555-6063|(676) 555-6554|2023|    7| 28|      43|
+255|(770) 555-1861|(725) 555-3243|2023|    7| 28|      49|
+261|(031) 555-6622|(910) 555-3251|2023|    7| 28|      38|
+279|(826) 555-1652|(066) 555-9701|2023|    7| 28|      55|
+281|(338) 555-6650|(704) 555-2131|2023|    7| 28|      54|
+```
+
+``` 
+Query 7: 
+``` 
+SELECT * 
+FROM atm_transactions at2
+WHERE day = 28
+AND year = 2023 
+AND month = 7
+AND atm_location = "Leggett Street" 
+AND transaction_type = 'withdraw'
+
+```bash
+id |account_number|year|month|day|atm_location  |transaction_type|amount|
+---+--------------+----+-----+---+--------------+----------------+------+
+246|      28500762|2023|    7| 28|Leggett Street|withdraw        |    48|
+264|      28296815|2023|    7| 28|Leggett Street|withdraw        |    20|
+266|      76054385|2023|    7| 28|Leggett Street|withdraw        |    60|
+267|      49610011|2023|    7| 28|Leggett Street|withdraw        |    50|
+269|      16153065|2023|    7| 28|Leggett Street|withdraw        |    80|
+288|      25506511|2023|    7| 28|Leggett Street|withdraw        |    20|
+313|      81061156|2023|    7| 28|Leggett Street|withdraw        |    30|
+336|      26013199|2023|    7| 28|Leggett Street|withdraw        |    35|
+ ``` 
+ 
+ 
+``` 
+Query 8: 
+``` 
+
+SELECT *
 
 ```bash ``` ``` Query : ``` SELECT *
 
