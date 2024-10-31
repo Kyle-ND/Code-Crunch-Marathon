@@ -18,11 +18,11 @@ WHERE day = 28
 AND year = 2023 
 AND month = 7
 AND "hour" = 10
-AND "minute" BETWEEN 15 AND 25
+AND "minute" BETWEEN 15 AND 25;
 
 SELECT id
 FROM airports a 
-WHERE city = 'Fiftyville'
+WHERE city = 'Fiftyville';
 
 SELECT * 
 FROM flights f 
@@ -38,7 +38,7 @@ FROM phone_calls pc
 WHERE day = 28
 AND year = 2023 
 AND month = 7
-AND duration < 60
+AND duration < 60;
 
 SELECT * 
 FROM atm_transactions at2
@@ -46,19 +46,23 @@ WHERE day = 28
 AND year = 2023 
 AND month = 7
 AND atm_location = "Leggett Street" 
-AND transaction_type = 'withdraw'
+AND transaction_type = 'withdraw';
 
--- Filtered List of Exits from Bakery Parking Lot
-SELECT *
-FROM bakery_security_logs bsl
-JOIN atm_transactions at2 ON bsl.day = at2.day AND bsl.year = at2.year AND bsl.month = at2.month
-WHERE bsl.activity = 'exit'
-AND bsl.hour = 10
-AND bsl.minute BETWEEN 15 AND 25
-AND at2.atm_location = 'Leggett Street';
+WITH Withdrawals AS (
+    SELECT ba.account_number, ba.person_id, ba.creation_year, at2.id, at2.year, at2.month, at2.day, 
+           at2.atm_location, at2.transaction_type, at2.amount
+    FROM bank_accounts ba
+    JOIN atm_transactions at2 ON ba.account_number = at2.account_number
+    WHERE at2.day = 28
+    AND at2.year = 2023 
+    AND at2.month = 7
+    AND at2.atm_location = 'Leggett Street' 
+    AND at2.transaction_type = 'withdraw'
+)
 
-
-
+SELECT w.*, p.name, p.phone_number, p.passport_number, p.license_plate
+FROM Withdrawals w
+JOIN people p ON w.person_id = p.id;
 
 
 

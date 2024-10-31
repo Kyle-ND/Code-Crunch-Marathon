@@ -113,14 +113,15 @@ id |caller        |receiver      |year|month|day|duration|
 
 ``` 
 Query 7: 
-``` 
-SELECT * 
+```
+SELECT *
 FROM atm_transactions at2
-WHERE day = 28
-AND year = 2023 
-AND month = 7
-AND atm_location = "Leggett Street" 
-AND transaction_type = 'withdraw'
+WHERE
+    day = 28
+    AND year = 2023
+    AND month = 7
+    AND atm_location = "Leggett Street"
+    AND transaction_type = 'withdraw'
 
 ```bash
 id |account_number|year|month|day|atm_location  |transaction_type|amount|
@@ -133,20 +134,60 @@ id |account_number|year|month|day|atm_location  |transaction_type|amount|
 288|      25506511|2023|    7| 28|Leggett Street|withdraw        |    20|
 313|      81061156|2023|    7| 28|Leggett Street|withdraw        |    30|
 336|      26013199|2023|    7| 28|Leggett Street|withdraw        |    35|
- ``` 
- 
- 
-``` 
+ ``` ``` 
 Query 8: 
+```
+WITH
+    Withdrawals AS (
+        SELECT ba.account_number, ba.person_id, ba.creation_year, at2.id, at2.year, at2.month, at2.day, at2.atm_location, at2.transaction_type, at2.amount
+        FROM
+            bank_accounts ba
+            JOIN atm_transactions at2 ON ba.account_number = at2.account_number
+        WHERE
+            at2.day = 28
+            AND at2.year = 2023
+            AND at2.month = 7
+            AND at2.atm_location = 'Leggett Street'
+            AND at2.transaction_type = 'withdraw'
+    )
+
+SELECT w.*, p.name, p.phone_number, p.passport_number, p.license_plate
+FROM Withdrawals w
+    JOIN people p ON w.person_id = p.id;
+
+```bash
+account_number|person_id|creation_year|id |year|month|day|atm_location  |transaction_type|amount|name   |phone_number  |passport_number|license_plate|
+--------------+---------+-------------+---+----+-----+---+--------------+----------------+------+-------+--------------+---------------+-------------+
+      49610011|   686048|         2010|267|2023|    7| 28|Leggett Street|withdraw        |    50|Bruce  |(367) 555-5533|     5773159633|94KL13X      |
+      26013199|   514354|         2012|336|2023|    7| 28|Leggett Street|withdraw        |    35|Diana  |(770) 555-1861|     3592750733|322W7JE      |
+      16153065|   458378|         2012|269|2023|    7| 28|Leggett Street|withdraw        |    80|Brooke |(122) 555-4581|     4408372428|QX4YZN3      |
+      28296815|   395717|         2014|264|2023|    7| 28|Leggett Street|withdraw        |    20|Kenny  |(826) 555-1652|     9878712108|30G67EN      |
+      25506511|   396669|         2014|288|2023|    7| 28|Leggett Street|withdraw        |    20|Iman   |(829) 555-5269|     7049073643|L93JTIZ      |
+      28500762|   467400|         2014|246|2023|    7| 28|Leggett Street|withdraw        |    48|Luca   |(389) 555-5198|     8496433585|4328GD8      |
+      76054385|   449774|         2015|266|2023|    7| 28|Leggett Street|withdraw        |    60|Taylor |(286) 555-6063|     1988161715|1106N58      |
+      81061156|   438727|         2018|313|2023|    7| 28|Leggett Street|withdraw        |    30|Benista|(338) 555-6650|     9586786673|8X428L0      |
+```
+
+``` Query 9: 
+
 ``` 
 
 SELECT *
 
-```bash ``` ``` Query : ``` SELECT *
+```bash 
 
-```bash ``` ``` Query : ``` SELECT *
+``` 
 
-```bash ``` ``` Query : ``` SELECT *
+``` Query 10: 
+
+``` 
+SELECT *
+
+```bash 
+
+``` 
+
+``` Query : ``` SELECT *
 
 ```bash ``` ``` Query : ``` SELECT *
 
