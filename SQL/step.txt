@@ -1,0 +1,41 @@
+My step to get to my answer:
+
+SELECT * FROM "crime_scene_reports"
+WHERE "year" = '2023' AND "month" = '7' AND "day" = '28' AND "street"  = 'Humphrey Street' AND "description" LIKE '%the CS50 duck%';
+SELECT * FROM "interviews"
+WHERE "year" = '2023' AND "month" = '7' AND "day" = '28' AND "transcript" LIKE '%thief%';
+SELECT * FROM "bakery_security_logs"
+WHERE "year" = '2023' AND "month" = '7' AND "day" = '28' AND "activity" = 'exit' and "hour" = '10' AND "minute" BETWEEN '15' AND '25';
+SELECT * FROM "people"
+WHERE "license_plate" = '94KL13X';
+SELECT * FROM "passengers"
+WHERE  "passport_number" = (
+	SELECT "passport_number" FROM "people"
+	WHERE "license_plate" = '94KL13X'
+	);
+SELECT * FROM "flights"
+WHERE "id" = (
+	SELECT "flight_id" FROM "passengers"
+	WHERE "flight_id" = '36'
+	);
+SELECT * FROM "airports"
+WHERE "id" = (
+	SELECT "destination_airport_id" FROM "flights"
+	WHERE "destination_airport_id" = '4'
+	);
+SELECT * FROM "phone_calls"
+WHERE "caller" = (
+	SELECT "phone_number" FROM "people"
+	WHERE "phone_number" = '(367) 555-5533'
+	) AND "day" = '28' AND "duration" BETWEEN '0' AND '60';
+SELECT * FROM "people"
+WHERE "phone_number" = (
+	SELECT "receiver" FROM "phone_calls"
+	WHERE "receiver" = '(375) 555-8161'
+	);
+
+So my answer:
+
+The thief is Bruce.
+The city which the thief escaped to New York City.
+The person who help the thief to escaped is Robin.
