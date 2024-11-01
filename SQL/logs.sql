@@ -81,7 +81,7 @@ WHERE
     day = 29
     AND year = 2023
     AND month = 7
-    AND origin_airport_id
+    AND origin_airport_id = 8 
 ORDER BY hour ASC, minute ASC;
 
 ```bash 
