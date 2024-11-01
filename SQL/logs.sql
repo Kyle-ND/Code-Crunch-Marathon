@@ -1,5 +1,5 @@
-```
-Query 1:
+``` markdown
+Crime Scene Report (Query 1): Looks for reports containing the "CS50 duck" keyword and provides details on the theft, which happened at Humphrey Street bakery at 10:15 am.
 ```
 SELECT *
 FROM crime_scene_reports csr
@@ -15,8 +15,12 @@ id |year|month|day|street         |description                                  
 295|2023|    7| 28|Humphrey Street|Theft of the CS50 duck took place at 10:15am at the Humphrey Street bakery. Interviews were conducted today with three witnesses who were present at the time – each of their interview transcripts mentions the bakery.|
 ```
 
-```
-Query 2:
+``` markdown
+Interviews (Query 2): Collects interviews mentioning the bakery from the same day. Notable witness details include:
+
+Ruth saw the thief drive away.
+Eugene recognized the thief and previously saw them at an ATM on Leggett Street.
+Raymond overheard a conversation where the thief mentioned taking an early flight from Fiftyville the next day.
 ```
 SELECT *
 FROM interviews i
@@ -34,8 +38,9 @@ id |name   |year|month|day|transcript                                           
 163|Raymond|2023|    7| 28|As the thief was leaving the bakery, they called someone who talked to them for less than a minute. In the call, I heard the thief say that they were planning to take the earliest flight out of Fiftyville tomorrow. The thief then asked the person on the o|
 ```
 
-``` Query 3: ```
-
+``` markdown
+Bakery Security Logs (Query 3): Retrieves security records from 10:15 to 10:25 am on July 28, showing cars exiting with specific license plates. These plates might link to potential suspects or witnesses.
+```
 SELECT *
 FROM bakery_security_logs bsl
 WHERE
@@ -58,15 +63,18 @@ id |year|month|day|hour|minute|activity|license_plate|
 267|2023|    7| 28|  10|    23|exit    |0NTHK55      |
 ```
 
-``` Query 4: ```
+``` markdown
+Airport ID (Query 4): Retrieves the airport ID for Fiftyville, used in later queries to find flight details.
+```
 
 SELECT id FROM airports a WHERE city = 'Fiftyville'
 
 ```bash id| --+ 8| ```
 
-``` 
-Query 5: 
+``` markdown
+Flights from Fiftyville (Query 5): Lists flights departing from Fiftyville on July 29, with the earliest flight at 8:20 am, aligning with the thief’s plan.
 ```
+
 SELECT *
 FROM flights f
 WHERE
@@ -86,8 +94,8 @@ id|origin_airport_id|destination_airport_id|year|month|day|hour|minute|
 18|                8|                     6|2023|    7| 29|  16|     0|
 ```
 
-``` 
-Query 6: 
+``` markdown
+Phone Calls (Query 6): Collects calls on July 28 under 60 seconds, possibly identifying relevant short calls, including the one overheard by Raymond.
 ```
 SELECT *
 FROM phone_calls pc
@@ -111,8 +119,8 @@ id |caller        |receiver      |year|month|day|duration|
 281|(338) 555-6650|(704) 555-2131|2023|    7| 28|      54|
 ```
 
-``` 
-Query 7: 
+``` markdown
+ATM Transactions (Query 7): Finds ATM withdrawals on Leggett Street, where Eugene spotted the thief. The results include account numbers and transaction amounts.
 ```
 SELECT *
 FROM atm_transactions at2
@@ -134,8 +142,8 @@ id |account_number|year|month|day|atm_location  |transaction_type|amount|
 288|      25506511|2023|    7| 28|Leggett Street|withdraw        |    20|
 313|      81061156|2023|    7| 28|Leggett Street|withdraw        |    30|
 336|      26013199|2023|    7| 28|Leggett Street|withdraw        |    35|
- ``` ``` 
-Query 8: 
+ ``` ``` markdown
+Withdrawing Individuals' Details (Query 8): Expands on Query 7 by joining people’s details to ATM withdrawals. Individuals making transactions on Leggett Street include Bruce, Diana, and others, with their personal information.
 ```
 WITH
     Withdrawals AS (
@@ -168,29 +176,87 @@ account_number|person_id|creation_year|id |year|month|day|atm_location  |transac
       81061156|   438727|         2018|313|2023|    7| 28|Leggett Street|withdraw        |    30|Benista|(338) 555-6650|     9586786673|8X428L0      |
 ```
 
-``` Query 9: 
-
-``` 
-
-SELECT *
+``` markdown
+Comprehensive Cross-Referenced Data (Query 9): This complex query attempts to correlate several pieces of evidence, including ATM transactions, phone calls, bakery security logs, and flight bookings. It links individuals withdrawing from the ATM with matching license plates in security logs and phone call activity, enhancing the connections between ATM users, security footage, and flight plans.
+```
+SELECT
+    ba.account_number,
+    ba.person_id,
+    ba.creation_year,
+    at2.id AS transaction_id,
+    at2.year,
+    at2.month,
+    at2.day,
+    at2.atm_location,
+    at2.transaction_type,
+    at2.amount,
+    p.name,
+    p.phone_number,
+    p.passport_number,
+    p.license_plate,
+    pc.id AS phone_call_id,
+    pc.caller,
+    pc.receiver,
+    pc.duration,
+    bsl.license_plate,
+    p2.flight_id,
+    p2.seat
+FROM
+    bank_accounts ba
+    INNER JOIN atm_transactions at2 ON ba.account_number = at2.account_number
+    INNER JOIN people p ON ba.person_id = p.id
+    INNER JOIN phone_calls pc ON (
+        pc.caller = p.phone_number
+        OR pc.receiver = p.phone_number
+    )
+    INNER JOIN bakery_security_logs bsl ON (
+        bsl.license_plate = p.license_plate
+    )
+    INNER JOIN passengers p2 ON (
+        p2.passport_number = p.passport_number
+    )
+WHERE
+    at2.day = 28
+    AND at2.year = 2023
+    AND at2.month = 7
+    AND at2.atm_location = 'Leggett Street'
+    AND at2.transaction_type = 'withdraw'
+    AND pc.day = 28
+    AND pc.year = 2023
+    AND pc.month = 7
+    AND pc.duration < 60
+    AND bsl.day = 28
+    AND bsl.year = 2023
+    AND bsl.month = 7
+    AND bsl.hour = 10
+    AND bsl.minute BETWEEN 15 AND 25
+    AND p2.flight_id = 36;
 
 ```bash 
+account_number|person_id|creation_year|transaction_id|year|month|day|atm_location  |transaction_type|amount|name |phone_number  |passport_number|license_plate|phone_call_id|caller        |receiver      |duration|license_plate|flight_id|sea
+--------------+---------+-------------+--------------+----+-----+---+--------------+----------------+------+-----+--------------+---------------+-------------+-------------+--------------+--------------+--------+-------------+---------+---
+      49610011|   686048|         2010|           267|2023|    7| 28|Leggett Street|withdraw        |    50|Bruce|(367) 555-5533|     5773159633|94KL13X      |          233|(367) 555-5533|(375) 555-8161|      45|94KL13X      |       36|4A 
+```
 
-``` 
-
-``` Query 10: 
-
-``` 
+``` markdown
+Comprehensive Cross-Referenced Data (Query 10): This query aims to extract detailed information about individuals whose phone number includes the substring ` "(375) 555-8161" `. It focuses on identifying specific entries in the ` people ` table based on the phone number criteria.
+```
 SELECT *
+FROM people p
+WHERE
+    p.phone_number LIKE '%(375) 555-8161%'
 
 ```bash 
+id    |name |phone_number  |passport_number|license_plate|
+------+-----+--------------+---------------+-------------+
+864400|Robin|(375) 555-8161|               |4V16VO0      |
+```
 
-``` 
+``` markdown
+Based on the gathered evidence:
 
-``` Query : ``` SELECT *
 
-```bash ``` ``` Query : ``` SELECT *
-
-```bash ``` ``` Query : ``` SELECT *
-
-```bash ```
+- **Thief**: Bruce
+- **Accomplice**: Robin
+- **City flown to**: New York
+```

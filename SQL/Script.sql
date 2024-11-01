@@ -48,21 +48,59 @@ AND month = 7
 AND atm_location = "Leggett Street" 
 AND transaction_type = 'withdraw';
 
-WITH Withdrawals AS (
-    SELECT ba.account_number, ba.person_id, ba.creation_year, at2.id, at2.year, at2.month, at2.day, 
-           at2.atm_location, at2.transaction_type, at2.amount
-    FROM bank_accounts ba
-    JOIN atm_transactions at2 ON ba.account_number = at2.account_number
-    WHERE at2.day = 28
+
+SELECT 
+    ba.account_number, 
+    ba.person_id, 
+    ba.creation_year, 
+    at2.id AS transaction_id, 
+    at2.year, 
+    at2.month, 
+    at2.day, 
+    at2.atm_location, 
+    at2.transaction_type, 
+    at2.amount,
+    p.name, 
+    p.phone_number, 
+    p.passport_number, 
+    p.license_plate,
+    pc.id AS phone_call_id,
+    pc.caller, 
+    pc.receiver, 
+    pc.duration,
+    bsl.license_plate,
+    p2.flight_id,
+    p2.seat
+FROM 
+    bank_accounts ba
+INNER JOIN 
+    atm_transactions at2 ON ba.account_number = at2.account_number
+INNER JOIN 
+    people p ON ba.person_id = p.id
+INNER JOIN 
+    phone_calls pc ON (pc.caller = p.phone_number OR pc.receiver = p.phone_number)
+INNER JOIN
+	bakery_security_logs bsl ON (bsl.license_plate = p.license_plate)
+INNER JOIN
+	passengers p2 ON (p2.passport_number = p.passport_number)
+WHERE 
+    at2.day = 28
     AND at2.year = 2023 
     AND at2.month = 7
     AND at2.atm_location = 'Leggett Street' 
     AND at2.transaction_type = 'withdraw'
-)
+    AND pc.day = 28
+    AND pc.year = 2023 
+    AND pc.month = 7
+    AND pc.duration < 60
+	AND bsl.day = 28 
+	AND bsl.year = 2023 
+	AND bsl.month = 7
+	AND bsl.hour = 10
+	AND bsl.minute BETWEEN 15 AND 25
+	AND p2.flight_id = 36;
 
-SELECT w.*, p.name, p.phone_number, p.passport_number, p.license_plate
-FROM Withdrawals w
-JOIN people p ON w.person_id = p.id;
-
-
+SELECT * 
+FROM people p
+WHERE p.phone_number LIKE '%(375) 555-8161%'
 
