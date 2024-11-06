@@ -20,7 +20,8 @@ def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
 
     URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={api_key}"
     test_url = "https://api.github.com"
-    #f"api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=11169032316a0187407b8f2feec650e9"
+    
+    #f"api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={api_key}"
     
     # Catch any errors that may arise trying to GET the Weather data
     try:
