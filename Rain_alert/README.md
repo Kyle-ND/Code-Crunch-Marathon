@@ -33,3 +33,22 @@ Before you begin, ensure you have the following installed:
 4. **OpenWeather API Key** – [Generate your key here](https://openweathermap.org/api)
 
 ---
+
+## Installation
+To install the program and run the program
+- Go to the shell 
+    ```shell
+    $ git clone https://github.com/sakhileln/Code-Crunch-Marathon.git
+    ```
+- Change directory to the project
+    ```shell
+    $ cd Code-Crunch-Marathon/Rain_alert/
+    ```
+- Install the required packages
+    ```shell
+    $ pip install -r requirements.txt
+    ```
+- Run the project
+    ```shell
+    $ python3 main.py
+    ```
