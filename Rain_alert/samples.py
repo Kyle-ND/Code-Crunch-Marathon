@@ -56,8 +56,8 @@ sample_dict_wx_data = {
 }
 
 # Sample response from Twilio
-400 - BAD REQUEST - The data given in the POST or PUT failed validation. Inspect the response body for details.
-{
+# 400 - BAD REQUEST - The data given in the POST or PUT failed validation. Inspect the response body for details.
+res = {
   "code": 21608,
   "message": "The number +27082581XXXX is unverified. Trial accounts cannot send messages to unverified numbers; verify +27082581XXXX at twilio.com/user/account/phone-numbers/verified, or purchase a Twilio number to send messages to unverified numbers",
   "more_info": "https://www.twilio.com/docs/errors/21608",
