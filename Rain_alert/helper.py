@@ -2,18 +2,15 @@
 A module for helper functions.
 """
 
-from creds import (
-    api_key,
-    twilio_account_sid,
-    twilio_auth_token,
-    twilio_phone_number,
-    user_phone_number
-)
-import requests
+from dotenv import load_dotenv
+from os import getenv
+from requests import get
 from requests.exceptions import HTTPError
 from samples import wx_sample_response
 from twilio.rest import Client
 
+
+load_dotenv() # Take environment variables from .env
 
 def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
     """
@@ -26,14 +23,14 @@ def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
         weather_data (dict): All weather information about the city
     """
 
-    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={api_key}"
+    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={getenv('OPENWEATHER_API')}"
     test_url = "https://api.github.com"
 
     #f"api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={api_key}"
     
     # Catch any errors that may arise trying to GET the Weather data
     try:
-        response = requests.get(URL)
+        response = get(URL)
         response.raise_for_status()
     except HTTPError as http_err:
         print(f"HTTP Error occured: {http_err}")
@@ -55,7 +52,7 @@ def get_user_location() -> tuple[str, str]:
 
     url = "https://ipinfo.io/"
     try:
-        response = requests.get(url)
+        response = get(url)
         response.raise_for_status()
     except HTTPError as http_err:
         print(f"HTTP Error occured: {http_err}")
@@ -114,12 +111,12 @@ def send_sms(message: str) -> dict:
         response (dict): Response from the attempt to send the message
     """
     
-    client = Client(twilio_account_sid, twilio_auth_token)
+    client = Client(str(getenv('TWILIO_ACCOUNT_SID')), str(getenv('TWILIO_AUTH_TOKEN')))
 
     message = client.messages.create(
-        from_= twilio_phone_number,
+        from_= str(getenv('TWILIO_NUMBER')),
         body = message,
-        to = user_phone_number
+        to = str(getenv('USER_NUMBER'))
     )
 
     return message.sid
