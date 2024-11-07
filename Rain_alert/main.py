@@ -18,15 +18,19 @@ def main() -> None:
     Return:
         None
     """
-    pass
+    # Get user location
+    location = get_user_location()
+    # Uunpack tuple to latitude and longitude
+    lat, lon = location
+    # Get hourly weather data 
+    exclude = 'hourly'
+    hourly_forcast = get_weather_data(lat, lon, exclude)
+    # Process that data and formulate warning for the user
+    mock_warning = "Rain in the next hour. We cannot sell ice cream today."
+    # Send the user a warning SMS
+    send_sms(mock_warning)
 
 
 if __name__ == "__main__":
-    # Test data
-    # Johannesburg (lat, lon)
-    lat = -26.204103
-    lon = 28.047304
-    exclude = "hourly"
-    print(f"Hardcoded: ({lat}, {lon})")
-    print(f"Retrieval: {get_user_location()}")
-    # print(get_weather_data(lat, lon, exclude))
+    # Start the program
+    main()
