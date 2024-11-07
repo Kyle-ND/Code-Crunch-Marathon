@@ -90,5 +90,13 @@ def send_sms(message: str) -> dict:
 
 if __name__ == "__main__":
     # Test cases
+    # Test data
+    # Johannesburg (lat, lon)
+    # lat = -26.204103
+    # lon = 28.047304
+    # exclude = "hourly"
+    # print(f"Hardcoded: ({lat}, {lon})")
+    # print(f"Retrieval: {get_user_location()}")
+    # print(get_weather_data(lat, lon, exclude))
     message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
     print(send_sms(message))
