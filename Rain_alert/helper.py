@@ -4,7 +4,7 @@ A module for helper functions.
 
 from dotenv import load_dotenv
 from os import getenv
-import requests
+from requests import get
 from requests.exceptions import HTTPError
 from samples import wx_sample_response
 from twilio.rest import Client
@@ -30,7 +30,7 @@ def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
     
     # Catch any errors that may arise trying to GET the Weather data
     try:
-        response = requests.get(URL)
+        response = get(URL)
         response.raise_for_status()
     except HTTPError as http_err:
         print(f"HTTP Error occured: {http_err}")
@@ -52,7 +52,7 @@ def get_user_location() -> tuple[str, str]:
 
     url = "https://ipinfo.io/"
     try:
-        response = requests.get(url)
+        response = get(url)
         response.raise_for_status()
     except HTTPError as http_err:
         print(f"HTTP Error occured: {http_err}")
