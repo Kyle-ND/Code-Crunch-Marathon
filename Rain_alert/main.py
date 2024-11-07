@@ -5,7 +5,8 @@ A module to check rain forecast and arn the user through Twilio SMS
 from helper import (
     get_user_location,
     get_weather_data,
-    send_sms
+    send_sms,
+    process_weather
 )
 
 
@@ -26,9 +27,9 @@ def main() -> None:
     exclude = 'hourly'
     hourly_forcast = get_weather_data(lat, lon, exclude)
     # Process that data and formulate warning for the user
-    mock_warning = "Rain in the next hour. We cannot sell ice cream today."
+    warning = process_weather(hourly_forcast)
     # Send the user a warning SMS
-    send_sms(mock_warning)
+    send_sms(warning)
 
 
 if __name__ == "__main__":
