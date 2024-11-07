@@ -132,6 +132,6 @@ if __name__ == "__main__":
     # print(f"Hardcoded: ({lat}, {lon})")
     # print(f"Retrieval: {get_user_location()}")
     # print(get_weather_data(lat, lon, exclude))
-    message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
-    print(send_sms(message))
-    # print(process_weather(wx_sample_response))
+    # message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
+    # print(send_sms(message))
+    print(process_weather(wx_sample_response))
