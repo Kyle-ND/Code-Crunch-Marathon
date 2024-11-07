@@ -52,3 +52,11 @@ To install the program and run the program
     ```shell
     $ python3 main.py
     ```
+## Usage
+If you are interested to know if there is expected rain in your vicinity.
+1. Create a .env file at the root of the project.
+2. Get your OpenWeather API Key and Twilio Authorasation Token and Account SID, and a Twilio Number.
+3. Get the number you like to receive the SMS forecast on.
+4. Add the items mentioned above to .env file you just created.
+5. Use .env.sample file as a guide for adding items on .env file
+6. Run the project and you will receive a SMS message with the forecast.
