@@ -2,14 +2,8 @@
 A module for helper functions.
 """
 
-from creds import (
-    api_key,
-    twilio_account_sid,
-    twilio_auth_token,
-    twilio_phone_number,
-    user_phone_number
-)
 from dotenv import load_dotenv
+from os import getenv
 import requests
 from requests.exceptions import HTTPError
 from samples import wx_sample_response
@@ -29,7 +23,7 @@ def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
         weather_data (dict): All weather information about the city
     """
 
-    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={OPENWEATHER_API_KEY}"
+    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={getenv('OPENWEATHER_API')}"
     test_url = "https://api.github.com"
 
     #f"api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={api_key}"
@@ -117,12 +111,12 @@ def send_sms(message: str) -> dict:
         response (dict): Response from the attempt to send the message
     """
     
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    client = Client(str(getenv('TWILIO_ACCOUNT_SID')), str(getenv('TWILIO_AUTH_TOKEN')))
 
     message = client.messages.create(
-        from_= TWILIO_NUMBER,
+        from_= str(getenv('TWILIO_NUMBER')),
         body = message,
-        to = USER_NUMBER
+        to = str(getenv('USER_NUMBER'))
     )
 
     return message.sid
@@ -138,6 +132,6 @@ if __name__ == "__main__":
     # print(f"Hardcoded: ({lat}, {lon})")
     # print(f"Retrieval: {get_user_location()}")
     # print(get_weather_data(lat, lon, exclude))
-    # message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
-    # print(send_sms(message))
-    print(process_weather(wx_sample_response))
+    message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
+    print(send_sms(message))
+    # print(process_weather(wx_sample_response))
