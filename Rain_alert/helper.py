@@ -11,6 +11,7 @@ from creds import (
 )
 import requests
 from requests.exceptions import HTTPError
+from samples import wx_sample_response
 from twilio.rest import Client
 
 
@@ -65,6 +66,42 @@ def get_user_location() -> tuple[str, str]:
         location_str = tuple(json_format['loc'].split(",")) # Get lat, long, make them a tuple
         # Convert the str location to a float and give it back
         return tuple(map(float, location_str)) 
+    
+
+def process_weather(weather_data: dict) -> str:
+    """
+    Process weather from given location, give rain warning if needed
+
+    Parameters:
+        weather_data (dict): Weather information from a given location
+    Return:
+        weather_forecast (str): Warning to user if there is rain
+    """
+    warning_words = [
+        "rain",
+        "drizzle",
+        "precipitation",
+        "thunderstorms",
+        "showers",
+        "hail",
+        "sleet",
+        "snow",
+        "snowflake"
+    ]
+
+    # Get weather data from the dictionary at 'data' key element 0
+    dict_wx_data = weather_data['data'][0]
+    # Get dictionary with weather data we are interested on
+    weather_dict = dict_wx_data['weather'][0]
+    # Issue the warning
+    for item in weather_dict:
+        for warning in warning_words:
+            if type(weather_dict[item]) == int: # Skip integeer items
+                continue
+            else:
+                if warning in weather_dict[item].lower():
+                    return "Rain is expected in you area (Time Expected: 1 hour), get to shelter."
+    return "Clear blue sky, go to the swimming pool"
 
 
 def send_sms(message: str) -> dict:
@@ -98,5 +135,6 @@ if __name__ == "__main__":
     # print(f"Hardcoded: ({lat}, {lon})")
     # print(f"Retrieval: {get_user_location()}")
     # print(get_weather_data(lat, lon, exclude))
-    message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
-    print(send_sms(message))
+    # message = "Hey, Sakhile, alien technology is here! Ayinabungozi lento."
+    # print(send_sms(message))
+    print(process_weather(wx_sample_response))
