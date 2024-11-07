@@ -9,11 +9,14 @@ from creds import (
     twilio_phone_number,
     user_phone_number
 )
+from dotenv import load_dotenv
 import requests
 from requests.exceptions import HTTPError
 from samples import wx_sample_response
 from twilio.rest import Client
 
+
+load_dotenv() # Take environment variables from .env
 
 def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
     """
@@ -26,7 +29,7 @@ def get_weather_data(lat: float, lon: float, exclude: str) -> dict:
         weather_data (dict): All weather information about the city
     """
 
-    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={api_key}"
+    URL = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={OPENWEATHER_API_KEY}"
     test_url = "https://api.github.com"
 
     #f"api.openweathermap.org/data/2.5/weather?q=London,uk&APPID={api_key}"
@@ -114,12 +117,12 @@ def send_sms(message: str) -> dict:
         response (dict): Response from the attempt to send the message
     """
     
-    client = Client(twilio_account_sid, twilio_auth_token)
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
     message = client.messages.create(
-        from_= twilio_phone_number,
+        from_= TWILIO_NUMBER,
         body = message,
-        to = user_phone_number
+        to = USER_NUMBER
     )
 
     return message.sid
