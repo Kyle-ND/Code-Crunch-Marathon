@@ -60,3 +60,20 @@ If you are interested to know if there is expected rain in your vicinity.
 4. Add the items mentioned above to .env file you just created.
 5. Use .env.sample file as a guide for adding items on .env file
 6. Run the project and you will receive a SMS message with the forecast.
+
+## Contributing
+Contributions are welcome! If you have suggestions for improvements or new features, please fork the repository and create a pull request.
+1. Fork the repository
+2. Create your feature branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add some feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Open a pull request.
