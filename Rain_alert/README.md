@@ -52,6 +52,8 @@ To install the program and run the program
     ```shell
     $ python3 main.py
     ```
+---
+
 ## 🛠️ Usage
 If you are interested to know if there is expected rain in your vicinity.
 1. Create a .env file at the root of the project.
@@ -60,6 +62,8 @@ If you are interested to know if there is expected rain in your vicinity.
 4. Add the items mentioned above to .env file you just created.
 5. Use .env.sample file as a guide for adding items on .env file
 6. Run the project and you will receive a SMS message with the forecast.
+
+---
 
 ## 👨‍💻 Contributing
 Contributions are welcome! If you have suggestions for improvements or new features, please fork the repository and create a pull request.
@@ -77,3 +81,5 @@ Contributions are welcome! If you have suggestions for improvements or new featu
    git push origin feature/YourFeature
    ```
 5. Open a pull request.
+
+---
