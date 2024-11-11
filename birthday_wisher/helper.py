@@ -35,3 +35,10 @@ def read_spreadsheet() -> list[list]:
     values = worksheet.get_all_values()
 
     return values
+
+
+if __name__ == "__main__":
+    # Test cases
+    values = read_spreadsheet()
+    for row in values:
+        print(row)
