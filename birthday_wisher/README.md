@@ -28,8 +28,7 @@
 
 1. **Python 3.x** installed  
 2. **Google Account** with access to a Google Sheet  
-3. **Google Cloud Console Project** with Sheets API enabled  
-4. **Service Account** credentials for Google Sheets (JSON format)  
-5. Email account with **SMTP access** (e.g., Gmail)
+3. **Google sheets sheety api**
+4. Email account with **SMTP access** (e.g., Gmail)
 
 ---
